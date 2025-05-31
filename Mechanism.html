@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtuals Platform Launch Flows</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .launch-type {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .launch-type:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .standard {
+            border-color: #e74c3c;
+        }
+        
+        .genesis {
+            border-color: #3498db;
+        }
+        
+        .launch-header {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .standard .launch-header {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        
+        .genesis .launch-header {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+        
+        .flow-step {
+            background: white;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            transform: translateX(10px);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .standard .flow-step {
+            border-left-color: #e74c3c;
+        }
+        
+        .genesis .flow-step {
+            border-left-color: #3498db;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: -15px;
+            top: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .standard .step-number {
+            background: #e74c3c;
+        }
+        
+        .genesis .step-number {
+            background: #3498db;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            margin-left: 25px;
+        }
+        
+        .step-content {
+            color: #555;
+            line-height: 1.6;
+            margin-left: 25px;
+        }
+        
+        .tokenomics-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .tokenomics-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .tokenomics-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .key-differences {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .differences-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .differences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .difference-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .difference-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffd700;
+        }
+        
+        .mechanism-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: #3498db;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .highlight-box {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .differences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🚀 Virtuals Platform Launch Mechanisms</h1>
+        
+        <div class="comparison-container">
+            <!-- Standard Launch -->
+            <div class="launch-type standard">
+                <div class="launch-header">
+                    ⚡ Standard Launch
+                </div>
+                
+                <div class="tokenomics-box">
+                    <div class="tokenomics-title">💰 Tokenomics</div>
+                    <div class="tokenomics-item">
+                        <span>Public Sale:</span>
+                        <span><strong>87.5%</strong></span>
+                    </div>
+                    <div class="tokenomics-item">
+                        <span>Liquidity Pool:</span>
+                        <span><strong>12.5%</strong></span>
+                    </div>
+                    <div class="tokenomics-item">
+                        <span>Developer Allocation:</span>
+                        <span><strong>0%</strong></span>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">🎯 Immediate Launch</div>
+                    <div class="step-content">
+                        Agent launches immediately with bonding curve mechanism. Pay 100 VIRTUAL creation fee.
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">📈 Bonding Curve Trading</div>
+                    <div class="step-content">
+                        Users buy tokens directly from bonding curve. Price increases with each purchase (first-come, first-served).
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">🎊 Ascension Target</div>
+                    <div class="step-content">
+                        When 42,425 VIRTUAL is accumulated through purchases, agent "ascends to Sentient".
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">🔥 Curve Graduation</div>
+                    <div class="step-content">
+                        Liquidity moves from bonding curve to Uniswap. Bonding curve is burned. Free market trading begins.
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    ⚠️ Risk: Large buyers can dominate early allocation
+                </div>
+            </div>
+            
+            <!-- Genesis Launch -->
+            <div class="launch-type genesis">
+                <div class="launch-header">
+                    🌟 Genesis Launch
+                </div>
+                
+                <div class="tokenomics-box">
+                    <div class="tokenomics-title">💰 Tokenomics</div>
+                    <div class="tokenomics-item">
+                        <span>Public Sale:</span>
+                        <span><strong>37.5%</strong></span>
+                    </div>
+                    <div class="tokenomics-item">
+                        <span>Liquidity Pool:</span>
+                        <span><strong>12.5%</strong></span>
+                    </div>
+                    <div class="tokenomics-item">
+                        <span>Developer Allocation:</span>
+                        <span><strong>50%</strong></span>
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">📅 Set Launch Date</div>
+                    <div class="step-content">
+                        Creator sets future launch date and pays 100 VIRTUAL creation fee. Minimum FDV: 336,000 VIRTUAL.
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">🎯 24-Hour Pledge Period</div>
+                    <div class="step-content">
+                        Users pledge Virgen Points (earned through ecosystem participation) for token allocation. Max 0.5% per user.
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">💎 VIRTUAL Commitment</div>
+                    <div class="step-content">
+                        Users commit up to 566 VIRTUAL tokens. Final allocation based on points pledged vs total points.
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">✅ Launch Success Check</div>
+                    <div class="step-content">
+                        Launch succeeds if 42,425+ VIRTUAL committed. If not, all points and VIRTUAL refunded.
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">🎁 Token Distribution</div>
+                    <div class="step-content">
+                        Participants claim tokens based on final allocation. Excess VIRTUAL and unused points refunded.
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    ✅ Benefit: Fair distribution with community validation
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-differences">
+            <h2 class="differences-title">🔥 Key Differences</h2>
+            <div class="differences-grid">
+                <div class="difference-item">
+                    <div class="difference-title">🚀 Launch Speed</div>
+                    <div><strong>Standard:</strong> Immediate launch</div>
+                    <div><strong>Genesis:</strong> Scheduled with 24hr pledge period</div>
+                </div>
+                
+                <div class="difference-item">
+                    <div class="difference-title">⚖️ Fair Distribution</div>
+                    <div><strong>Standard:</strong> No allocation caps</div>
+                    <div><strong>Genesis:</strong> 0.5% max per user</div>
+                </div>
+                
+                <div class="difference-item">
+                    <div class="difference-title">👨‍💻 Developer Rewards</div>
+                    <div><strong>Standard:</strong> 0% allocation</div>
+                    <div><strong>Genesis:</strong> 50% allocation</div>
+                </div>
+                
+                <div class="difference-item">
+                    <div class="difference-title">💰 Minimum Investment</div>
+                    <div><strong>Standard:</strong> Any amount</div>
+                    <div><strong>Genesis:</strong> 336k VIRTUAL minimum FDV</div>
+                </div>
+                
+                <div class="difference-item">
+                    <div class="difference-title">🎯 Entry Requirements</div>
+                    <div><strong>Standard:</strong> Just VIRTUAL tokens</div>
+                    <div><strong>Genesis:</strong> Virgen Points + VIRTUAL</div>
+                </div>
+                
+                <div class="difference-item">
+                    <div class="difference-title">🔒 Launch Guarantee</div>
+                    <div><strong>Standard:</strong> Always launches</div>
+                    <div><strong>Genesis:</strong> Community validation required</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
